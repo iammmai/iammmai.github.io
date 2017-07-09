@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+  </head>
+  <body>
+
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+      <script>
+      $.ajax({
+        type: "GET",
+        url: "https://maps.googleapis.com/maps/api/geocode/xml?latlng=40.714224,-73.961452&key=AIzaSyCrBZLbv6Pf2ALMCyMTvm2kSjQLivDyd4s",
+        dataType: "XML",
+        success: processXML
+      });
+        
+      function processXML(xml){
+        alert('done);
+      }
+    
+    </script>
+      
+  </body>
+</html>
+
