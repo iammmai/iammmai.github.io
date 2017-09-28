@@ -13,15 +13,21 @@ function draw () {
     startAngle += 0.01;
     let angle = startAngle;
     
-    for (let i =0; i <= width ; i +=25) {
+    for (let i =0; i <= width ; i +=40) {
         
         
         let y = amp * sin(angle);
+        let dia = map(y, 0, height, 20, 80);
+        let colB = map(y,200, height, 0, 255);
+        let colG = map(y,200, height, 255, 0);
         
         noStroke()
-        fill(255);
-        ellipse(i, y+height/2, 18, 18);
+        fill(167,colG,colB);
+        ellipse(i, y+height/2, dia, dia);
         angle += angleVel;
         
     }
+
+    
+
 }
