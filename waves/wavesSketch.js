@@ -10,7 +10,7 @@ function setup () {
 function draw () {
     background(0);
     
-    startAngle += 0.01;
+    startAngle += 0.02;
     let angle = startAngle;
     
     for (let i =0; i <= width ; i +=40) {
