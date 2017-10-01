@@ -18,16 +18,19 @@ function draw () {
         
         let y = amp * sin(angle);
         let dia = map(y, 0, height, 20, 80);
-        let colB = map(y,200, height, 0, 255);
-        let colG = map(y,200, height, 255, 0);
+        let colB = map(y,0, height, 0, 255);
         
-        noStroke()
-        fill(167,colG,colB);
+        let c = color(167,colB,colB);
+        
+        noStroke();
+        fill(c);
         ellipse(i, y+height/2, dia, dia);
         angle += angleVel;
         
+        console.log(y);
+        //console.log(colG);
     }
 
-    
+
 
 }
