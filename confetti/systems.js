@@ -8,7 +8,7 @@ ParticleSys.prototype.addParticle = function () {
 
     if(mouseIsPressed) {
         for (let i =0 ; i<this.total ; i++) {
-            let p = new Confetti(mouseX, mouseY, 20)
+            let p = new Confetti(mouseX, mouseY, random(10,25))
             this.ps.push(p)
         }
     }
@@ -45,7 +45,7 @@ SquareSys.prototype.constructor = SquareSys
 SquareSys.prototype.addParticle = function () {
     if(mouseIsPressed) {
         for (let i =0 ; i<this.total ; i++) {
-            let p = new Square(mouseX, mouseY, 20)
+            let p = new Square(mouseX, mouseY, random(10,25))
             this.ps.push(p)
         }
     }
@@ -62,7 +62,7 @@ TriangleSys.prototype.constructor = TriangleSys
 TriangleSys.prototype.addParticle = function () {
     if(mouseIsPressed) {
         for (let i =0 ; i<this.total ; i++) {
-            let p = new Triangle(mouseX, mouseY, 20)
+            let p = new Triangle(mouseX, mouseY, random(10,25))
             this.ps.push(p)
         }
     }

@@ -74,8 +74,8 @@ Triangle.prototype.constructor = Triangle
 
 Triangle.prototype.display = function () {
     this.angle = this.vel.heading();
-    noStroke()
-    fill(this.c)
+    stroke(this.c)
+    noFill
     triangle(this.loc.x, this.loc.y, this.loc.x +this.r, this.loc.y,this.loc.x +this.r/2, this.loc.y + this.r)
 
 }
