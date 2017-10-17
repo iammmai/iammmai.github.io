@@ -1,5 +1,6 @@
 let c 
-let s 
+let s
+let t
 
 
 function setup () {
@@ -7,6 +8,7 @@ function setup () {
     background(255)
     c = new ParticleSys()
     s = new SquareSys()
+    t = new TriangleSys
 }
 
 function draw () {
@@ -14,6 +16,7 @@ function draw () {
     
     c.run()
     s.run()
+    t.run()
 
 }
 

@@ -44,8 +44,8 @@ Confetti.prototype.run = function () {
 
 // Child Class contructor
 function Square (x,y,r,c) {
-    Confetti.call(this, x,y,r,c)
-    this.c = c
+    Confetti.call(this, x,y,r)
+
 }
 
 // Inherit from Confetti
@@ -64,3 +64,18 @@ Square.prototype.display = function () {
     pop()
 }
 
+// Another child
+function Triangle (x,y,r) {
+    Confetti.call(this,x,y,r)
+}
+
+Triangle.prototype = Object.create(Confetti.prototype)
+Triangle.prototype.constructor = Triangle
+
+Triangle.prototype.display = function () {
+    this.angle = this.vel.heading();
+    noStroke()
+    fill(this.c)
+    triangle(this.loc.x, this.loc.y, this.loc.x +this.r, this.loc.y,this.loc.x +this.r/2, this.loc.y + this.r)
+
+}

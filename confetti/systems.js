@@ -45,7 +45,24 @@ SquareSys.prototype.constructor = SquareSys
 SquareSys.prototype.addParticle = function () {
     if(mouseIsPressed) {
         for (let i =0 ; i<this.total ; i++) {
-            let p = new Square(mouseX, mouseY, 20, color(random(255), random(255), random(255)))
+            let p = new Square(mouseX, mouseY, 20)
+            this.ps.push(p)
+        }
+    }
+}
+
+// Child class for triangle
+function TriangleSys () {
+    ParticleSys.call(this)
+}
+
+TriangleSys.prototype = Object.create(ParticleSys.prototype)
+TriangleSys.prototype.constructor = TriangleSys
+
+TriangleSys.prototype.addParticle = function () {
+    if(mouseIsPressed) {
+        for (let i =0 ; i<this.total ; i++) {
+            let p = new Triangle(mouseX, mouseY, 20)
             this.ps.push(p)
         }
     }
