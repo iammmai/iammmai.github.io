@@ -1,0 +1,82 @@
+// constructor of Confetti
+function Confetti (x,y,r) {
+    this.loc = createVector(x,y)
+    this.acc = createVector(0,0)
+    this.vel = createVector(0,0)
+    this.r = r
+    this.c = color(random(255), random(255), random(255), this.lifespan)
+    this.lifespan = 255
+    this.angle
+    this.maxspeed = 5
+    this.maxforce = 10
+}
+
+//functions on Confetti
+Confetti.prototype.display = function () {
+    fill(this.c)
+    noStroke()
+    ellipse(this.loc.x, this.loc.y, this.r, this.r )
+}
+
+Confetti.prototype.update = function () {
+    this.vel.add(this.acc)
+    this.loc.add(this.vel)
+    this.lifespan -= 1
+    this.acc.mult(0)
+}
+
+Confetti.prototype.isDead = function () {
+    if (this.lifespan <= 0) {
+        return true
+    } else {
+        return false
+    }
+}
+
+Confetti.prototype.applyForce = function (force) {
+    let fAcc = new p5.Vector.div(force, this.r)
+    this.acc.add(fAcc)
+    
+}
+
+Confetti.prototype.seek = function (target) {
+    let desired = new p5.Vector.sub(target, this.loc)
+    desired.normalize()
+    desired.mult(this.maxspeed* -1)
+    let steer = new p5.Vector.sub(desired, this.vel)
+    steer.limit(this.maxforce)
+    this.applyForce(steer)
+    
+
+}
+
+Confetti.prototype.run = function (target) {
+    this.seek(target)
+    this.update()
+    this.display()
+}
+
+
+
+// Child Class contructor
+function Square (x,y,r) {
+    Confetti.call(this, x,y,r)
+
+}
+
+// Inherit from Confetti
+Square.prototype = Object.create(Confetti.prototype)
+Square.prototype.constructor = Square
+
+// Overwrite display function
+Square.prototype.display = function () {
+    this.angle = this.vel.heading();
+    noFill()
+    stroke(this.c)
+    push()
+    translate(this.loc.x, this.loc.y)
+    rotate(this.angle);
+    rect(0,0, this.r*2, this.r)
+    pop()
+}
+
