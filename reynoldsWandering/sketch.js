@@ -10,5 +10,6 @@ function draw() {
     background(0)
     v.target()
     v.move()
+    v.checkEdges()
     v.display()
 }

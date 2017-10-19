@@ -31,12 +31,8 @@ Vehicle.prototype.target = function () {
     
     let circleOffset = createVector(wanderR*cos(this.theta+h), wanderR * sin(this.theta+h))
     let t = new p5.Vector.add(circlepos, circleOffset)
-    this.seek(t)
     
-}
-
-Vehicle.prototype.seek = function (trgt) {
-    let desired = new p5.Vector.sub(trgt, this.loc)
+    let desired = new p5.Vector.sub(t, this.loc)
     desired.normalize()
     desired.mult(this.maxspeed)
     let steer = new p5.Vector.sub(desired, this.vel)
@@ -49,7 +45,7 @@ Vehicle.prototype.seek = function (trgt) {
     ellipseMode(RADIUS)
     ellipse(circlepos.x, circlepos.y, wanderR, wanderR)
     line(this.loc.x, this.loc.y, circlepos.x, circlepos.y)
-    line(circlepos.x, circlepos.y, trgt.x, trgt.y)
+    line(circlepos.x, circlepos.y, t.x, t.y)
  
     
 }
@@ -71,4 +67,16 @@ Vehicle.prototype.display = function () {
     rectMode(CENTER)
     rect(0,0, this.b, this.a)
     pop()
+}
+
+Vehicle.prototype.checkEdges = function () {
+    if(this.loc.x > width) {
+        this.loc.x = 0
+    } else if (this.loc.x < 0) {
+        this.loc.x = width
+    } else if (this.loc.y > height) {
+        this.loc.y = 0
+    } else if (this.loc.y < 0) {
+        this.loc.y = height
+    }
 }
