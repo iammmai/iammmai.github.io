@@ -13,7 +13,7 @@ ParticleSys.prototype.addParticle = function () {
     }
 }
 
-ParticleSys.prototype.run = function () {
+ParticleSys.prototype.run = function (trgt) {
 
             this.addParticle();
 
@@ -21,7 +21,6 @@ ParticleSys.prototype.run = function () {
 
         for (let j = this.ps.length-1 ; j >=0 ; j--) {
             let par = this.ps[j]
-            let trgt = new p5.Vector(mouseX, mouseY)
             par.run(trgt)
 
             if (par.isDead()) {

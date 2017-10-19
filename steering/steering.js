@@ -4,7 +4,7 @@ function Confetti (x,y,r) {
     this.acc = createVector(0,0)
     this.vel = createVector(0,0)
     this.r = r
-    this.c = color(random(255), random(255), random(255), this.lifespan)
+    this.c = color(random(255), random(255), random(255))
     this.lifespan = 255
     this.angle
     this.maxspeed = 5
@@ -13,7 +13,8 @@ function Confetti (x,y,r) {
 
 //functions on Confetti
 Confetti.prototype.display = function () {
-    fill(this.c)
+    let col = color(red(this.c), green(this.c), blue(this.c), this.lifespan)
+    fill(col)
     noStroke()
     ellipse(this.loc.x, this.loc.y, this.r, this.r )
 }
@@ -42,7 +43,7 @@ Confetti.prototype.applyForce = function (force) {
 Confetti.prototype.seek = function (target) {
     let desired = new p5.Vector.sub(target, this.loc)
     desired.normalize()
-    desired.mult(this.maxspeed* -1)
+    desired.mult(this.maxspeed)
     let steer = new p5.Vector.sub(desired, this.vel)
     steer.limit(this.maxforce)
     this.applyForce(steer)
@@ -71,8 +72,9 @@ Square.prototype.constructor = Square
 // Overwrite display function
 Square.prototype.display = function () {
     this.angle = this.vel.heading();
+    let col = color(red(this.c), green(this.c), blue(this.c), this.lifespan)
     noFill()
-    stroke(this.c)
+    stroke(col)
     push()
     translate(this.loc.x, this.loc.y)
     rotate(this.angle);
@@ -80,3 +82,35 @@ Square.prototype.display = function () {
     pop()
 }
 
+// new child object that is being followed
+
+function Leader (x,y,r) {
+    Confetti.call(this, x,y,r)
+    this.vel = createVector(4,7)
+    
+}
+
+Leader.prototype = Object.create(Confetti.prototype)
+Leader.prototype.constructor = Leader
+
+// they don't die (for now)
+Leader.prototype.update = function () {
+    //this.vel.add(this.acc)
+    this.loc.add(this.vel)
+    //this.acc.mult(0)
+}
+
+Leader.prototype.checkEdges = function () {
+    if(this.loc.x > width-this.r || this.loc.x < this.r) {
+        this.vel.x *= -1
+    } else if (this.loc.y > height-this.r || this.loc.y < this.r) {
+        this.vel.y *= -1
+    }
+}
+
+
+Leader.prototype.run = function () {
+    this.checkEdges()
+    this.update()
+    this.display()
+}
