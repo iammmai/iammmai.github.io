@@ -1,71 +1,94 @@
 //the path class
 
-function Path () {
+function Path() {
     this.radius = 40
-    this.start = createVector(0, random(height))
-    this.end = createVector(width, random(height))
+    this.points = []
 
+}
+
+Path.prototype.addPoint = function (x, y) {
+    const point = createVector(x, y)
+    this.points.push(point)
 }
 
 Path.prototype.display = function () {
-    stroke(200,100)
-    strokeWeight(this.radius*2)
-    line(this.start.x, this.start.y, this.end.x, this.end.y)
-    stroke(255,100)
-    strokeWeight(2)
-    line(this.start.x, this.start.y, this.end.x, this.end.y)
+    
+    noFill()
+    beginShape()
+    for (let i = 0; i < this.points.length; i++) {
+        let po = this.points[i]
+        stroke(100)
+        strokeWeight(this.radius)
+        vertex(po.x, po.y)
+    }
+    endShape()
 }
 
 // the mover class
-function Mover () {
-    this.loc = createVector(random(width/3),random(width/3))
-    this.vel = createVector(1,1)
-    this.acc = createVector(0,0)
-    this.maxspeed = 5
+function Mover() {
+    this.loc = createVector(random(width / 3), random(width / 3))
+    this.vel = createVector(1, 1)
+    this.acc = createVector(0, 0)
+    this.maxspeed = 7
     this.rad = 15
-    this.mass = this.rad
+    this.mass = this.rad*2
     
+
+}
+Mover.prototype.getNormalPoint = function (p, a, b) {
+    let ap = new p5.Vector.sub(p, a)
+    let ab = new p5.Vector.sub(b, a)
+    ab.normalize()
+    ab.mult(ap.dot(ab))
+    let normalPoint = new p5.Vector.add(a, ab)
+    if (normalPoint.x < a.x || normalPoint.x > b.x) {       
+            normalPoint= b.copy()
+    }
+    return normalPoint
 }
 
-Mover.prototype.getTarget = function (path) {
+Mover.prototype.follow = function (path) {
+    let worldrecord = 100000
     let predict = this.vel.copy()
     predict.normalize()
-    predict.mult(3)
-    let predictLoc = new p5.Vector.add(predict, this.loc)
-    
-    let a = new p5.Vector.sub(predictLoc, path.start)
-    let b = new p5.Vector.sub(path.end, path.start)
-    
-    //d is the distance between start and the normpoint, which equals the dot product of a and b
+    predict.mult(10)
+    predictLoc = new p5.Vector.add(predict, this.loc)
+    let target = null
 
-    b.normalize()
-    let d = a.dot(b)
-    b.mult(d)
-    
-    let normalPoint = new p5.Vector.add(path.start, b)
-    let distance = predictLoc.dist(normalPoint)
-    
-    let dir = b.copy()
-    dir.normalize()
-    dir.mult(70)
-    let target = normalPoint.add(dir)
-    
-    console.log(dir)
-    if(distance > path.radius) {
-        this.steer(target)
+    for (let i = 0; i < path.points.length-1; i++) {
+        let start = path.points[i]
+        let end = path.points[i + 1]
+        
+        let normalPoint = this.getNormalPoint(predictLoc, start, end)
+
+        let distance = p5.Vector.dist(predictLoc, normalPoint)
+
+        if (distance < worldrecord) {
+            worldrecord = distance
+            target = normalPoint.copy()
+            let dir = p5.Vector.sub(end, start)
+            dir.normalize()
+            dir.mult(20)
+            target.add(dir)
+            
+        }
     }
+    console.log(target)
+        if (worldrecord > path.radius && target !== null) {
+            this.steer(target)
+        }
+    
 }
 
+
 Mover.prototype.steer = function (target) {
-    //let target = normalPoint
     let desired = new p5.Vector.sub(target, this.loc)
     desired.normalize()
     desired.mult(this.maxspeed)
     let steer = new p5.Vector.sub(desired, this.vel)
     this.applyForce(steer)
-    //console.log(normalPoint)
-    
 }
+
 
 Mover.prototype.applyForce = function (force) {
     let fAcc = new p5.Vector.div(force, this.mass)
@@ -79,7 +102,7 @@ Mover.prototype.display = function () {
     push()
     translate(this.loc.x, this.loc.y)
     rotate(this.vel.heading())
-    rect(0,0, this.rad*2, this.rad)
+    rect(0, 0, this.rad * 2, this.rad)
     pop()
 }
 
@@ -89,8 +112,8 @@ Mover.prototype.update = function () {
     this.acc.mult(0)
 }
 
-Mover.prototype.follow = function (path) {
-    this.update()
-    let normalPoint = this.getTarget(path)
-    this.steer(normalPoint)
-} 
+Mover.prototype.checkEdges = function (start) {
+    if (this.loc.x > width) {
+        this.loc.set(start.x, start.y)
+    }
+}
