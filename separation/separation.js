@@ -1,16 +1,15 @@
 
 
-function Vehicle(x,y) {
+function Vehicle(x,y,rad) {
     this.loc = new p5.Vector(x,y)
     this.acc = new p5.Vector(0,0.5)
     this.vel = new p5.Vector(0,0)
-    this.r = 20
-    this.maxspeed = 20
+    this.r =rad
+    this.maxspeed = 10
 }
 
-
 Vehicle.prototype.separate = function(others) {
-    const desiredDist = 3*this.r
+    const desiredDist = 4*this.r
     let sum = new p5.Vector(0,0)
     let count = 0
     
@@ -29,14 +28,23 @@ Vehicle.prototype.separate = function(others) {
         sum.div(count)
         let steer = p5.Vector.sub(sum, this.vel)
         steer.mult(this.maxspeed)
-        this.applyForce(steer)
-        console.log(steer)
+        return steer
+    } else {
+        return false
     }
+}
+
+Vehicle.prototype.seek = function (target) {
+    let desired = new p5.Vector.sub(target, this.loc)
+    desired.normalize()
+    desired.mult(this.maxspeed)
+    let steering = new p5.Vector.sub(desired, this.vel)
+    return steering
 }
 
 Vehicle.prototype.applyForce = function(force) {
     // Force = mass * acceleration
-    let fAcc= p5.Vector.div(force, this.r)
+    let fAcc= new p5.Vector.div(force, this.r)
     this.acc.add(fAcc)
 }
 
@@ -65,3 +73,13 @@ Vehicle.prototype.checkEdges = function() {
     }
 }
 
+Vehicle.prototype.applyBehavior = function (others) {
+    let separateForce = this.separate(others)
+    let target = new p5.Vector(mouseX, mouseY)
+    let seekForce = this.seek(target)
+
+    if(separateForce) {
+        this.applyForce(separateForce)
+    }
+    this.applyForce(seekForce)
+}

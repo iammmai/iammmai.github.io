@@ -11,14 +11,14 @@ function setup() {
 function draw() {
     background(0)
     if(mouseIsPressed) {
-        vehicles.push(new Vehicle(mouseX, mouseY))
+        vehicles.push(new Vehicle(mouseX, mouseY, random(10,40)))
     }
    
     for (let i =0 ; i< vehicles.length; i++) {
         let v = vehicles[i]
         v.checkEdges()
         v.update()
-        v.separate(vehicles)
+        v.applyBehavior(vehicles)
         v.display()
     }
 
