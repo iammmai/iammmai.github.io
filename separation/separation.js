@@ -10,7 +10,7 @@ function Vehicle(x,y) {
 
 
 Vehicle.prototype.separate = function(others) {
-    const desiredDist = 2*this.r
+    const desiredDist = 3*this.r
     let sum = new p5.Vector(0,0)
     let count = 0
     
