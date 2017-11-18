@@ -32,7 +32,6 @@ function Mover (x,y,r, a,c, o) {
     
     this.hasTrail = function () {
         
-        
         for (let i = 0; i < this.trail.length ; i++) {
             let pos = this.trail[i];
             fill(this.col,25);

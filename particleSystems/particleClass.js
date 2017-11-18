@@ -6,6 +6,8 @@ function Particle (x,y, rad) {
     this.lifespan = 255;
     this.angle;
     
+    //this.img = loadImage("pizza.png")
+    
     this.run = function () {
 
         this.update();      
@@ -26,6 +28,7 @@ function Particle (x,y, rad) {
             translate(this.loc.x, this.loc.y);
             rotate(this.angle);
             rect(0,0, this.r*3 , this.r/3);
+            //image(this.img, 0, 0, 100, 100)
         pop()
     }
     

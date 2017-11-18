@@ -12,7 +12,7 @@ function Pendulum(xo, yo, rad) {
     
 
     
-    this.update = function () {
+    this.update = function (historyArray) {
         
         if (!this.dragging) {
             const gravity = 0.01;
@@ -27,10 +27,11 @@ function Pendulum(xo, yo, rad) {
 
                 let v = new p5.Vector(this.loc.x, this.loc.y);
 
-                this.history.push(v);
+                //this.history.push(v);
+                historyArray.push(v);
                /*
-                if (this.history.length > 200) {
-                    this.history.splice(1,0);
+                if (historyArray.length > 200) {
+                    historyArray.splice(0,1);
                 }
                 */
         }
@@ -41,15 +42,15 @@ function Pendulum(xo, yo, rad) {
         ellipseMode(CENTER);
         stroke(255);
         line(this.origin.x, this.origin.y, this.loc.x, this.loc.y);
-        fill(255);
+        fill(255, 100, 100);
         ellipse(this.loc.x, this.loc.y, 30,30);
     }
     
-    
-    
+      
     this.trailDisplay = function () {
         
         noStroke();
+        
         let vAcc = new p5.Vector(0, 0.5);
         let vVel = new p5.Vector(0,0);
         
@@ -86,5 +87,27 @@ function Pendulum(xo, yo, rad) {
             this.loc.set(mV.x, mV.y);
         }
     }
+    
+}
+
+function Confetti (x,y) {
+    this.location = new p5.Vector(x,y);
+    this.acceleration = new p5.Vector(0,2);
+    this.velocity = new p5.Vector(0,0);
+    this.radius = 10;
+    this.col = color(255);
+    
+    this.update = function() {
+        this.velocity.add(this.acceleration);
+        this.location.add(this.velocity);
+        
+    }
+   
+    this.display = function() {
+        noStroke();
+        fill(this.col);
+        ellipse(this.location.x, this.location.y, this.radius, this.radius)
+    }
+    
     
 }

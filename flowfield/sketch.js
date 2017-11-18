@@ -10,6 +10,7 @@ function setup() {
 
 function draw() {
     background(0)
+    
     f.make2DArray(f.cols)
     f.init()
     m.follow(f)

@@ -77,8 +77,10 @@ Vehicle.prototype.applyBehavior = function (others) {
     let separateForce = this.separate(others)
     let target = new p5.Vector(mouseX, mouseY)
     let seekForce = this.seek(target)
+    seekForce.mult(1.1)
 
     if(separateForce) {
+        separateForce.mult(1.5)
         this.applyForce(separateForce)
     }
     this.applyForce(seekForce)

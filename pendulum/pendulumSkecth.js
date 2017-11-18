@@ -1,4 +1,6 @@
 let p;
+let c = [];
+let confetti = []
 
 function setup() {
     background(0);
@@ -8,12 +10,27 @@ function setup() {
 
 function draw() {
     background(0);
-    p.update();
+    p.update(c);
     p.drag();
     p.display();
-    p.trailDisplay();
     
-    console.log(p.history);
+    for (let i=0; i< c.length ; i++) {
+        let con = new Confetti(c[i].x, c[i].y);
+
+        confetti.push(con);
+        
+    }
+    
+    
+    for (let j=0; j< confetti.length; j++) {
+        confetti[j].update();
+        confetti[j].display();      
+        
+    }
+    
+
+    console.log(c.length);    
+    console.log(confetti.length);
 
 }
 

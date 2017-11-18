@@ -35,6 +35,7 @@ Flowfield.prototype.drawVector= function (v,x,y, scale) {
 
 Flowfield.prototype.init = function () {
     let xoff = 0
+    
     for ( let i = 0; i< this.cols ; i++) {
         let yoff= 0
         for ( let j = 0; j < this.rows ; j++) {

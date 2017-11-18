@@ -1,4 +1,4 @@
-function Mover (a,b) {
+function Mover(a, b) {
     this.a = a
     this.b = b
     this.m = a+b

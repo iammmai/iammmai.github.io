@@ -17,7 +17,11 @@
       });
         
       function processXML(xml){
-        alert('done);
+        alert($(xml).find("address_component").each(function(){
+            if ($(this).find("type").text() == "postal_code"){
+                alert($(this).find("long_name").text());
+            }
+        }));
       }
     
     </script>
