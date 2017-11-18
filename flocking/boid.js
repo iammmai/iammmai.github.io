@@ -4,8 +4,8 @@ function Boid(x, y, rad) {
     this.vel = new p5.Vector(random(-2,2), random(-2,2))
     this.r = rad
     this.c = (255, random(50,200))
-    this.maxspeed = 30
-    this.maxforce = 10
+    this.maxspeed = 3
+    this.maxforce = 0.05
 }
 
 Boid.prototype.separate = function (others) {
@@ -108,17 +108,11 @@ Boid.prototype.display = function (force) {
     push()
     translate(this.loc.x, this.loc.y)
     rotate(this.vel.heading()+radians(90))
-    rectMode(CENTER)
-    rect(0,0,this.r, this.r*2)
-    stroke(255)
-    line(this.loc.x, this.loc.y, force.x, force.y)
-    /*
     beginShape()
     vertex(this.r/2,0)
     vertex(this.r, this.r)
     vertex(0, this.r)
     endShape(CLOSE)
-    */
     pop()
     
 }
@@ -139,9 +133,9 @@ Boid.prototype.applyBehavior = function (others) {
     let separateForce = this.separate(others)
     let seekForce = this.seek(others)
     let cohesionForce = this.cohesion(others)
-    separateForce.mult(2)
-    seekForce.mult(1.1)
-    cohesionForce.mult(0.5)
+    separateForce.mult(0.8)
+    seekForce.mult(2.4)
+    cohesionForce.mult(1.3)
     this.applyForce(seekForce)
     this.applyForce(separateForce)
     this.applyForce(cohesionForce)

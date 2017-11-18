@@ -8,7 +8,8 @@ function setup() {
 function draw() {
     background(0)
     if(mouseIsPressed) {
-        addBoid(boids)
+        let tempBoid = new Boid(mouseX+random(20), mouseY+random(20), random(10,30))
+        boids.push(tempBoid)
     }
    
     for (let i =0 ; i< boids.length; i++) {
