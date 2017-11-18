@@ -135,7 +135,7 @@ Boid.prototype.applyBehavior = function (others) {
     let cohesionForce = this.cohesion(others)
     separateForce.mult(0.8)
     seekForce.mult(2.4)
-    cohesionForce.mult(1.3)
+    cohesionForce.mult(1.4)
     this.applyForce(seekForce)
     this.applyForce(separateForce)
     this.applyForce(cohesionForce)
