@@ -9,7 +9,7 @@ function Boid(x, y, rad) {
 }
 
 Boid.prototype.separate = function(others) {
-  const desiredDist = 3 * this.r;
+  const desiredDist = 2 * this.r;
   let sum = new p5.Vector(0, 0);
   let count = 0;
 
@@ -26,9 +26,9 @@ Boid.prototype.separate = function(others) {
 
   if (count > 0) {
     sum.div(count);
+    sum.normalize();
+    sum.mult(this.maxspeed);
     let steer = p5.Vector.sub(sum, this.vel);
-    steer.normalize();
-    steer.mult(this.maxspeed);
     steer.limit(this.maxforce);
     return steer;
   } else {
@@ -37,7 +37,7 @@ Boid.prototype.separate = function(others) {
 };
 
 Boid.prototype.seek = function(others) {
-  const perceptionRadius = 5 * this.r;
+  const perceptionRadius = 10 * this.r;
   let sum = new p5.Vector(0, 0);
   let count = 0;
 
@@ -52,9 +52,10 @@ Boid.prototype.seek = function(others) {
 
   if (count > 0) {
     sum.div(count);
+    sum.normalize();
+    sum.mult(this.maxspeed);
     let steer = p5.Vector.sub(sum, this.vel);
-    steer.normalize();
-    steer.mult(this.maxspeed);
+    console.log(steer);
     steer.limit(this.maxforce);
     return steer;
   } else {
@@ -63,7 +64,7 @@ Boid.prototype.seek = function(others) {
 };
 
 Boid.prototype.cohesion = function(others) {
-  const perceptionRadius = 5 * this.r;
+  const perceptionRadius = 10 * this.r;
   let sum = new p5.Vector(0, 0);
   let count = 0;
 
@@ -80,8 +81,8 @@ Boid.prototype.cohesion = function(others) {
     sum.div(count);
     let desired = new p5.Vector.sub(sum, this.loc);
     desired.normalize();
+    desired.mult(this.maxspeed);
     let steer = p5.Vector.sub(desired, this.vel);
-    steer.mult(this.maxspeed);
     steer.limit(this.maxforce);
     return steer;
   } else {
@@ -98,13 +99,13 @@ Boid.prototype.applyForce = function(force) {
 Boid.prototype.update = function() {
   this.vel.add(this.acc);
   this.loc.add(this.vel);
+  this.vel.limit(this.maxspeed);
   this.acc.mult(0);
 };
 
 Boid.prototype.display = function(force) {
   fill(this.c);
   noStroke();
-  //ellipse(this.loc.x, this.loc.y, this.r, this.r)
   push();
   translate(this.loc.x, this.loc.y);
   rotate(this.vel.heading() + radians(90));
@@ -132,14 +133,15 @@ Boid.prototype.applyBehavior = function(others) {
   let separateForce = this.separate(others);
   let seekForce = this.seek(others);
   let cohesionForce = this.cohesion(others);
-  separateForce.mult(0.5);
-  seekForce.mult(1.7);
-  cohesionForce.mult(1.2);
+  separateForce.mult(0.7);
+  seekForce.mult(1.2);
+  cohesionForce.mult(1.9);
   this.applyForce(seekForce);
   this.applyForce(separateForce);
   this.applyForce(cohesionForce);
 };
 
+/*
 Boid.prototype.intersects = function(others) {
   let distanceVector = new p5.Vector.sub(this.loc, others.loc);
   if (distanceVector.mag() < this.r + others.r) {
@@ -148,3 +150,4 @@ Boid.prototype.intersects = function(others) {
     return false;
   }
 };
+*/

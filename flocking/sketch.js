@@ -21,11 +21,11 @@ function draw() {
     b.applyBehavior(boids);
     b.update();
     b.checkEdges();
-    b.display(b.seek(boids));
+    b.display(b.seek(boids));    
   }
-  console.log(boids.length);
 }
 
+/*
 function addBoid(array) {
   while (array.length < 7) {
     let tempBoid = new Boid(
@@ -45,3 +45,4 @@ function addBoid(array) {
     }
   }
 }
+*/
