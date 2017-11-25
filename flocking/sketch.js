@@ -1,8 +1,12 @@
 let boids = [];
+let predators = [];
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
+  const p = new Predator(random(width), random(height), 40)
+  predators.push(p)
 }
 
 function draw() {
@@ -18,11 +22,25 @@ function draw() {
 
   for (let i = 0; i < boids.length; i++) {
     let b = boids[i];
-    b.applyBehavior(boids);
+    if (b.intersects(predators)) {
+      boids.splice(i,1)
+    }
+    b.applyBehavior(boids, predators);
     b.update();
     b.checkEdges();
-    b.display(b.seek(boids));    
+    b.display();    
   }
+
+  for (let j =0; j<predators.length; j++) {
+    let p = predators[j]
+    p.applyBehavior(boids)
+    p.update()
+    p.checkEdges()
+    p.display()
+  }
+ 
+  
+
 }
 
 /*

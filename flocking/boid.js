@@ -8,8 +8,8 @@ function Boid(x, y, rad) {
   this.maxforce = 0.05;
 }
 
-Boid.prototype.separate = function(others) {
-  const desiredDist = 2 * this.r;
+Boid.prototype.separate = function(others, desiredDistance) {
+  const desiredDist = desiredDistance;
   let sum = new p5.Vector(0, 0);
   let count = 0;
 
@@ -103,7 +103,7 @@ Boid.prototype.update = function() {
   this.acc.mult(0);
 };
 
-Boid.prototype.display = function(force) {
+Boid.prototype.display = function() {
   fill(this.c);
   noStroke();
   push();
@@ -129,25 +129,31 @@ Boid.prototype.checkEdges = function() {
   }
 };
 
-Boid.prototype.applyBehavior = function(others) {
+Boid.prototype.applyBehavior = function(others, predator) {
   let separateForce = this.separate(others);
+  let fleeingForce = this.separate(predator, 100);
   let seekForce = this.seek(others);
   let cohesionForce = this.cohesion(others);
   separateForce.mult(0.7);
+  fleeingForce.mult(10);
   seekForce.mult(1.2);
   cohesionForce.mult(1.9);
   this.applyForce(seekForce);
+  this.applyForce(fleeingForce);
   this.applyForce(separateForce);
   this.applyForce(cohesionForce);
 };
 
-/*
+
 Boid.prototype.intersects = function(others) {
-  let distanceVector = new p5.Vector.sub(this.loc, others.loc);
-  if (distanceVector.mag() < this.r + others.r) {
-    return true;
-  } else {
-    return false;
-  }
-};
-*/
+    for (let i=0; i<others.length; i++) {
+        let o = others[i]
+        let distanceVector = new p5.Vector.sub(this.loc, o.loc);
+        if (distanceVector.mag() <  o.r) {
+          return true;
+        } else {
+          return false;
+        }
+    }
+}
+
