@@ -131,11 +131,11 @@ Boid.prototype.checkEdges = function() {
 
 Boid.prototype.applyBehavior = function(others, predator) {
   let separateForce = this.separate(others);
-  let fleeingForce = this.separate(predator, 100);
+  let fleeingForce = this.separate(predator, 200);
   let seekForce = this.seek(others);
   let cohesionForce = this.cohesion(others);
   separateForce.mult(0.7);
-  fleeingForce.mult(10);
+  fleeingForce.mult(15);
   seekForce.mult(1.2);
   cohesionForce.mult(1.9);
   this.applyForce(seekForce);
