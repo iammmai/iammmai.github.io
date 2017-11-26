@@ -149,7 +149,7 @@ Boid.prototype.intersects = function(others) {
     for (let i=0; i<others.length; i++) {
         let o = others[i]
         let distanceVector = new p5.Vector.sub(this.loc, o.loc);
-        if (distanceVector.mag() <  o.r) {
+        if (distanceVector.mag() <  this.r+o.r) {
           return true;
         } else {
           return false;

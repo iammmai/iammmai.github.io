@@ -5,8 +5,11 @@ let predators = [];
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
-  const p = new Predator(random(width), random(height), 40)
-  predators.push(p)
+  for (let i =0; i<3; i++) {
+    const p = new Predator(random(width), random(height), 40)
+    predators.push(p)
+  }
+  
 }
 
 function draw() {
