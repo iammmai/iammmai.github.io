@@ -1,7 +1,7 @@
 let c
 
 function setup() {
-    createCanvas(windowWidth, windowHeight)
+    createCanvas(windowWidth, 300)
     background(0)
     c= new CellSystem()
     c.restart()
@@ -9,11 +9,22 @@ function setup() {
 }
 
 function draw() {
+    c.render()
+    c.generate()
+    
+    
     if(mouseIsPressed) {
         c.restart()
     }
-    c.render()
-    c.generate()
-
+    
+    
+    if(c.finished()) {
+        console.log('yay')
+        c.removeRow()
+    }    
+    console.log(c.cells[0].length)
+    
+    
+    
 }
 

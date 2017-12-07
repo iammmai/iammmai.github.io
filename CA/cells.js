@@ -1,45 +1,59 @@
 function CellSystem() {
-  this.cells = new Array(500);
   this.ruleset = [];
   this.generation = 0;
-  this.w =3
-  this.history = []
-
+  this.w = 3;
+  this.cols = Math.floor(width / this.w);
+  this.rows = Math.floor(height / this.w);
+  this.cells = new Array(this.cols);
+  for (let i = 0; i < this.cols; i++) {
+    this.cells[i] = new Array(this.rows);
+  }
 }
 
-CellSystem.prototype.restart = function () {
-    background(0)
-    for (let i =0; i< this.cells.length; i++) {
-        this.cells[i] = Math.floor(random(2))
+CellSystem.prototype.restart = function() {
+  background(0);
+  for (let i = 0; i < this.cols; i++) {
+    for (let j = 0; j < this.rows; j++) {
+      this.cells[i][j] = 0;
+      this.cells[i][0] = Math.floor(random(2));
     }
-    this.generation = 0
-    c.generateRuleset()
-}
+  }
+  this.generation = 0;
+  c.generateRuleset();
+};
 
-CellSystem.prototype.generateRuleset = function () {
-    for (let i=0; i<8; i++) {
-            this.ruleset.push(Math.floor(random(2)))          
-    }
-}
+CellSystem.prototype.generateRuleset = function() {
+  for (let i = 0; i < 8; i++) {
+    this.ruleset.push(Math.floor(random(2)));
+  }
+};
 
 CellSystem.prototype.generate = function() {
-  let newcells = new Array(this.cells.length);
-  for (let i = 0; i < this.cells.length; i++) {
-      let newstate
-      if(i==0) {
-        newstate = this.rule(this.cells[this.cells.length -1], this.cells[i], this.cells[i + 1]);
-      } else if (i == this.cells.length -1) {
-        newstate = this.rule(this.cells[i - 1], this.cells[i], this.cells[0]);
-        
-      } else {
-        newstate = this.rule(this.cells[i - 1], this.cells[i], this.cells[i + 1]);
-      }  
+  for (let i = 0; i < this.cols; i++) {
+    let newstate;
+    if (i == 0) {
+      newstate = this.rule(
+        this.cells[this.cols - 1][this.generation],
+        this.cells[i][this.generation],
+        this.cells[i + 1][this.generation]
+      );
+    } else if (i == this.cells.length - 1) {
+      newstate = this.rule(
+        this.cells[i - 1][this.generation],
+        this.cells[i][this.generation],
+        this.cells[0][this.generation]
+      );
+    } else {
+      newstate = this.rule(
+        this.cells[i - 1][this.generation],
+        this.cells[i][this.generation],
+        this.cells[i + 1][this.generation]
+      );
+    }
 
-    newcells[i] = newstate;
+    this.cells[i][this.generation + 1] = newstate;
   }
-  this.cells = newcells;
   this.generation += 1;
-  
 };
 
 CellSystem.prototype.rule = function(left, middle, right) {
@@ -49,14 +63,31 @@ CellSystem.prototype.rule = function(left, middle, right) {
 };
 
 CellSystem.prototype.render = function() {
-  for (let i = 0; i < this.cells.length; i++) {
-    if (this.cells[i] == 1) {
-      fill(255);
-    } else {
-      noFill()
-      noStroke();
+  for (let i = 0; i < this.cols; i++) {
+    for (let j = 0; j < this.rows; j++) {
+      if (this.cells[i][j] == 1) {
+        fill(255);
+      } else {
+        noFill();
+        noStroke();
+      }
+      //stroke(255);
+      rect(i * this.w, j * this.w, this.w, this.w);
     }
-    //stroke(255);
-    rect(i * this.w, this.generation * this.w, this.w, this.w);
+  }
+};
+
+// if it's hit the bottom we need to splice the 2D array...how??
+CellSystem.prototype.finished = function() {
+  if (this.generation * this.w > height) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+CellSystem.prototype.removeRow = function() {
+  for (let k = 0; k < this.cols; k++) {
+    this.cells[k].splice(0,1)
   }
 };
