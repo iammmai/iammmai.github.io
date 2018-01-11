@@ -6,7 +6,7 @@ function Kochline (a, b) {
 
 Kochline.prototype.display = function () {
     noFill()
-    stroke(0)
+    stroke(255)
     line(this.start.x, this.start.y, this.end.x, this.end.y)
 }
 

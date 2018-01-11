@@ -1,22 +1,31 @@
 let lines = []
 function setup() {
     createCanvas(windowWidth, windowHeight)
-    background(255)
+    background(0)
 
-    const start = new p5.Vector(0, height/2)
-    const end = new p5.Vector(width, height/2)
+    const a = new p5.Vector(width/3, height/3)
+    const b = new p5.Vector(width*2/3, height/3)
+    const c = new p5.Vector(width/2, height*5/6)
 
-    lines.push(new Kochline(start, end))
+    lines.push(new Kochline(a, b))
+    lines.push(new Kochline(b, c))
+    lines.push(new Kochline(c, a))
+    /*
     for (let i=0; i<5; i++) {
         generate(lines)
     }
+    */
 }
 
 function draw () {
-    background(255)
+    background(0)
     lines.forEach(function(line){
         line.display()
     })
+}
+
+function mouseClicked() {
+    generate(lines)
 }
 
 function generate (array) {
