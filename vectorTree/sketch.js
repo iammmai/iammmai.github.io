@@ -1,4 +1,5 @@
 let branches =[]
+let dots =[]
 
 function setup() {
     createCanvas(windowWidth, windowHeight)
@@ -11,15 +12,20 @@ function setup() {
 function draw() {
     background(0)
     branches.forEach(function(branch){
-        branch.display()
+        branch.calculateDots()
     })
+    
+    dots.forEach(function(dot){
+        dot.display()
+    })
+
 }
 
 function mouseClicked() {
-    generate(branches)
+    generateBranch(branches)
 }
 
-function generate(array) {
+function generateBranch(array) {
     let next = []
     
     array.forEach(function(line){
@@ -38,4 +44,3 @@ function generate(array) {
     branches = next
     
 }
-
