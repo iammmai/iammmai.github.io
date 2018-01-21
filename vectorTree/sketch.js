@@ -1,5 +1,8 @@
 let branches =[]
 let dots =[]
+let shownDots = []
+let count = 0
+
 
 function setup() {
     createCanvas(windowWidth, windowHeight)
@@ -7,25 +10,32 @@ function setup() {
     let a= new p5.Vector(width/2, height)
     let b = new p5.Vector(width/2, height-200)
     branches.push(new Branch(a,b,20))
+
+    for (let i=0; i<8;i++) {
+        generate(branches)
+    }
+    branches.forEach(function(branch) {
+        branch.calculateDots()
+    })
+
 }
 
 function draw() {
     background(0)
-    branches.forEach(function(branch){
-        branch.calculateDots()
-    })
-    
-    dots.forEach(function(dot){
+    shownDots.forEach(function(dot){
         dot.display()
     })
-
+    count = frameCount
+    shownDots.push(dots[count])
+    
 }
 
 function mouseClicked() {
-    generateBranch(branches)
+    count++
+    shownDots.push(dots[count])
 }
 
-function generateBranch(array) {
+function generate(array) {
     let next = []
     
     array.forEach(function(line){
