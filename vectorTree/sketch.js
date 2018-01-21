@@ -30,11 +30,6 @@ function draw() {
     
 }
 
-function mouseClicked() {
-    count++
-    shownDots.push(dots[count])
-}
-
 function generate(array) {
     let next = []
     
