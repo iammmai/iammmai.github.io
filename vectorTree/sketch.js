@@ -1,4 +1,5 @@
 let branches =[]
+let br =[]
 let dots =[]
 let shownDots = []
 let count = 0
@@ -16,7 +17,14 @@ function setup() {
     for (let i=0; i<5;i++) {
         generate(branches)
     }
-    
+
+    for (let i=branches.length-1; i>=0 ; i-=1) {
+        if(branches[i].generation < gen && branches[i].generation !==0) {
+            branches.splice(i,1)
+        }
+        
+    }
+
     branches.forEach(function(branch) {
         branch.calculateDots()
     })
@@ -49,10 +57,7 @@ function generate(array) {
             next.push(new Branch(b,d,lw,gen))
             branches = branches.concat(next)
         }
-       
         
     })
-    
    
-    
 }
