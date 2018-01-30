@@ -1,7 +1,8 @@
-function Branch(a,b,w) {
+function Branch(a,b,w,g) {
     this.start = a.copy()
     this.end = b.copy()
     this.weight =w
+    this.generation = g
 }
 
 Branch.prototype.calculateDots = function () {
