@@ -1,0 +1,602 @@
+:root {
+  --purple-light: #C6C6FF;
+  --purple-main:  #A29AFF;
+  --purple-dark:  #6664F1;
+  --yellow-light: #FFF4A4;
+  --orange-light: #FFD8BB;
+  --pink-light:   #FFD4FE;
+  --black:        #000000;
+  --white:        #FFFFFF;
+  --beige:        #FFF0E6;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── SLIDE DECK ─────────────────────────────────────────── */
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  font-family: 'Proxima Nova', 'Nunito Sans', system-ui, -apple-system, sans-serif;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ─── SLIDE BASE ─────────────────────────────────────────── */
+.slide {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 1;
+}
+
+.slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* ─── ENTRY ANIMATIONS ───────────────────────────────────── */
+.anim {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.anim.d1 { transition-delay: 0.05s; }
+.anim.d2 { transition-delay: 0.18s; }
+.anim.d3 { transition-delay: 0.32s; }
+.anim.d4 { transition-delay: 0.46s; }
+.anim.d5 { transition-delay: 0.60s; }
+.anim.d6 { transition-delay: 0.74s; }
+.anim.d7 { transition-delay: 0.88s; }
+
+.slide.is-active .anim {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── DOT NAVIGATION ─────────────────────────────────────── */
+.dot-nav {
+  position: fixed;
+  right: 1.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.dot-nav__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.dot-nav__dot.is-active {
+  background: var(--purple-main);
+  transform: scale(1.5);
+}
+
+/* ─── SLIDE 1 · HERO ─────────────────────────────────────── */
+.hero {
+  justify-content: flex-end;
+}
+
+.hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 135%; /* extra height for parallax travel */
+  object-fit: cover;
+  object-position: center 85%;
+  will-change: transform;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.04) 0%,
+    rgba(0, 0, 0, 0.12) 38%,
+    rgba(0, 0, 0, 0.72) 68%,
+    rgba(0, 0, 0, 0.96) 100%
+  );
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  padding: 3rem 2.5rem 6rem;
+  max-width: 900px;
+}
+
+.hero__eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--purple-main);
+  margin-bottom: 1.25rem;
+}
+
+.hero__title {
+  font-size: clamp(2.4rem, 6vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.hero__title em {
+  font-style: normal;
+  color: var(--purple-light);
+}
+
+.hero__divider {
+  width: 64px;
+  height: 4px;
+  background: var(--purple-dark);
+  border-radius: 2px;
+  margin: 2rem 0;
+}
+
+.hero__subtitle {
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 580px;
+}
+
+.hero__meta {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background: var(--purple-dark);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.hero__meta-item {
+  flex: 1 1 140px;
+  padding: 0.85rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.hero__meta-item:not(:last-child) {
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.hero__meta-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--purple-light);
+}
+
+.hero__meta-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 3.8rem;
+  right: 2.8rem;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scroll-cue__line {
+  width: 1px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.6);
+  transform-origin: top;
+  animation: cueGrow 1.8s ease-in-out infinite;
+}
+
+@keyframes cueGrow {
+  0%   { transform: scaleY(0); opacity: 1; }
+  55%  { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* ─── SHARED TYPOGRAPHY ──────────────────────────────────── */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.section-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--purple-main);
+  margin-bottom: 1rem;
+}
+
+.section-heading {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+
+.section-body {
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ─── SLIDE 2 · ABOUT ────────────────────────────────────── */
+.about {
+  background: var(--black);
+  padding: 0 2.5rem;
+}
+
+/* ─── SLIDE 3 · CLIMBING STORY ───────────────────────────── */
+.climb-story {
+  justify-content: flex-end;
+}
+
+.climb-story__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 40% 70%;
+}
+
+.climb-story__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.05) 0%,
+    rgba(0, 0, 0, 0.15) 35%,
+    rgba(0, 0, 0, 0.78) 65%,
+    rgba(0, 0, 0, 0.97) 100%
+  );
+}
+
+.climb-story__quote {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0 2.5rem 5rem;
+  font-size: clamp(0.88rem, 1.7vw, 1.08rem);
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
+  border-left: 3px solid var(--purple-main);
+  padding-left: 1.5rem;
+}
+
+.climb-story__quote em {
+  font-style: italic;
+  color: var(--purple-light);
+  font-weight: 600;
+}
+
+/* ─── SLIDE 4 · FEAR SCIENCE ─────────────────────────────── */
+.fear-science {
+  background: #09090f;
+  padding: 0 2.5rem;
+}
+
+.fear-science__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.fear-science__quote {
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 900px;
+  border-left: 4px solid var(--purple-main);
+  padding-left: 2rem;
+}
+
+.fear-spectrum__track {
+  display: flex;
+  align-items: flex-end;
+  gap: 4rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fear-spectrum__node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.fear-spectrum__orb {
+  border-radius: 50%;
+}
+
+.node--1 .fear-spectrum__orb { width: 58px;  height: 58px;  background: var(--purple-light);  opacity: 0.75; }
+.node--2 .fear-spectrum__orb { width: 92px;  height: 92px;  background: var(--purple-main);   opacity: 0.82; }
+.node--3 .fear-spectrum__orb { width: 130px; height: 130px; background: #7b73f5;              opacity: 0.88; }
+.node--4 .fear-spectrum__orb {
+  width: 172px; height: 172px;
+  background: var(--purple-dark);
+  animation: orbPulse 2.6s ease-in-out infinite;
+}
+
+@keyframes orbPulse {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(102, 100, 241, 0.55); }
+  55%       { box-shadow: 0 0 0 28px rgba(102, 100, 241, 0); }
+}
+
+.fear-spectrum__label {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+}
+
+.fear-spectrum__source {
+  margin-top: 0.9rem;
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.22);
+  letter-spacing: 0.09em;
+}
+
+.slide-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.4rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.footer__wordmark {
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--purple-light);
+}
+
+.footer__tagline {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ─── SLIDE 5 · BIG QUOTE ────────────────────────────────── */
+.big-quote {
+  background: var(--black);
+  align-items: center;
+  padding: 0 2.5rem;
+}
+
+.big-quote__inner {
+  max-width: 860px;
+  width: 100%;
+}
+
+.big-quote__text {
+  font-size: clamp(2rem, 4.8vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  position: relative;
+}
+
+.big-quote__text::before {
+  content: '\201C';
+  display: block;
+  font-size: clamp(5rem, 12vw, 9rem);
+  line-height: 0.6;
+  color: var(--purple-dark);
+  opacity: 0.3;
+  margin-bottom: 0.4rem;
+}
+
+.big-quote__text em {
+  font-style: normal;
+  color: var(--purple-light);
+}
+
+/* ─── SLIDE 6 · BOOK ─────────────────────────────────────── */
+.book-slide {
+  background: #0d0b1a;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.book-slide__cover {
+  height: clamp(260px, 52vh, 460px);
+  width: auto;
+  border-radius: 3px;
+  box-shadow:
+    0 32px 72px rgba(0, 0, 0, 0.75),
+    0 0  80px rgba(102, 100, 241, 0.12);
+}
+
+.book-slide__label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--purple-main);
+}
+
+/* ─── SLIDES 7-12 · INDIVIDUAL STEPS ────────────────────── */
+.step-solo {
+  background: var(--black);
+  padding: 0 2.5rem;
+}
+
+.step-solo__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  max-width: 900px;
+}
+
+.step-solo__num {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--purple-main);
+}
+
+.step-solo__title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.step-solo__body {
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 720px;
+  border-left: 3px solid var(--purple-dark);
+  padding-left: 1.5rem;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.step-solo.body-revealed .step-solo__body {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.step-solo__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-width: 720px;
+  border-left: 3px solid var(--purple-dark);
+  padding-left: 1.5rem;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.45s ease 0.12s, transform 0.45s ease 0.12s;
+}
+
+.step-solo.body-revealed .step-solo__list {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.step-solo__list li {
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  padding-left: 1rem;
+  position: relative;
+}
+
+.step-solo__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--purple-main);
+  opacity: 0.7;
+}
+
+/* ─── SLIDE 9 · POWER LEAKS LIST ────────────────────────── */
+.leak-slide {
+  background: var(--black);
+  padding: 0 2.5rem;
+}
+
+.leak-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  max-width: 1000px;
+}
+
+/* ─── GENERIC REVEAL ITEMS ───────────────────────────────── */
+.reveal-item {
+  opacity: 0;
+  transform: translateX(-28px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  font-size: clamp(1.8rem, 3.8vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  padding-left: 3rem;
+  position: relative;
+}
+
+.reveal-item::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--purple-main);
+  font-weight: 300;
+}
+
+.reveal-item.is-revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+#slide-13-image {
+    position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%; /* extra height for parallax travel */
+  object-fit: cover;
+  object-position: center 85%;
+  will-change: transform;
+}
